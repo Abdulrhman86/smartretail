@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition — Reconciled to DESIGN.md (SmartRetail Stitch).
+ * Cormorant Garamond is authoritative for display/headline typography.
+ */
+
+@theme {
+  /* ── Colors (Material Design / Stitch DESIGN.md) ───────────────────────── */
+  --color-surface: #f9f9f9;
+  --color-surface-dim: #dadada;
+  --color-surface-bright: #f9f9f9;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f4f3f3;
+  --color-surface-container: #eeeeee;
+  --color-surface-container-high: #e8e8e8;
+  --color-surface-container-highest: #e2e2e2;
+  --color-surface-variant: #e2e2e2;
+  --color-surface-tint: #4e616e;
+
+  --color-on-surface: #1a1c1c;
+  --color-on-surface-variant: #43474b;
+  --color-inverse-surface: #2f3131;
+  --color-inverse-on-surface: #f1f1f1;
+
+  --color-primary: #162834;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #2c3e4a;
+  --color-on-primary-container: #96a9b7;
+  --color-inverse-primary: #b6c9d8;
+  --color-primary-fixed: #d2e5f4;
+  --color-primary-fixed-dim: #b6c9d8;
+  --color-on-primary-fixed: #0a1e29;
+  --color-on-primary-fixed-variant: #374955;
+
+  --color-secondary: #5d5f5f;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #dfe0e0;
+  --color-on-secondary-container: #616363;
+  --color-secondary-fixed: #e2e2e2;
+  --color-secondary-fixed-dim: #c6c6c7;
+  --color-on-secondary-fixed: #1a1c1c;
+  --color-on-secondary-fixed-variant: #454747;
+
+  --color-tertiary: #34230d;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #4c3821;
+  --color-on-tertiary-container: #bea184;
+  --color-tertiary-fixed: #fdddbc;
+  --color-tertiary-fixed-dim: #e0c1a2;
+  --color-on-tertiary-fixed: #281805;
+  --color-on-tertiary-fixed-variant: #58432b;
+
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  --color-outline: #73777c;
+  --color-outline-variant: #c3c7cb;
+
+  --color-background: #f9f9f9;
+  --color-on-background: #1a1c1c;
+
+  /* ── Reconciled / Alias tokens for existing pages ──────────────────────── */
+  --color-foreground: #1a1c1c;
+  --color-brand: #2c3e4a;
+  --color-brand-foreground: #ffffff;
+  --color-muted: #eeeeee;
+  --color-muted-foreground: #43474b;
+  --color-border: #e2e2e2;
+  --color-card: #ffffff;
+  --color-card-foreground: #1a1c1c;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #1a1c1c;
+  --color-input: #e2e2e2;
+  --color-ring: #2c3e4a;
+  --color-destructive: #ba1a1a;
+  --color-destructive-foreground: #ffffff;
+
+  /* ── Spacing (DESIGN.md) ───────────────────────────────────────────────── */
+  --spacing-container-max: 1440px;
+  --spacing-gutter: 24px;
+  --spacing-margin-desktop: 64px;
+  --spacing-margin-mobile: 20px;
+  --spacing-stack-sm: 8px;
+  --spacing-stack-md: 16px;
+  --spacing-stack-lg: 32px;
+  --spacing-stack-xl: 64px;
+
+  /* ── Typography & Fonts (Cormorant Garamond authoritative for Serif) ───── */
+  --font-display-lg: "Cormorant Garamond", Georgia, serif;
+  --font-display-lg-mobile: "Cormorant Garamond", Georgia, serif;
+  --font-headline-md: "Cormorant Garamond", Georgia, serif;
+  --font-headline-sm: "Cormorant Garamond", Georgia, serif;
+  --font-body-lg: "Inter", sans-serif;
+  --font-body-md: "Inter", sans-serif;
+  --font-label-caps: "Inter", sans-serif;
+  --font-label-md: "Inter", sans-serif;
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Inter", sans-serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Inter", sans-serif;
+  --font-cormorant: "Cormorant Garamond", Georgia, serif;
+
+  /* ── Text Sizes with Line Height & Tracking (DESIGN.md) ────────────────── */
+  --text-display-lg: 64px;
+  --text-display-lg--line-height: 72px;
+  --text-display-lg--letter-spacing: -0.02em;
+
+  --text-display-lg-mobile: 40px;
+  --text-display-lg-mobile--line-height: 48px;
+  --text-display-lg-mobile--letter-spacing: -0.01em;
+
+  --text-headline-md: 32px;
+  --text-headline-md--line-height: 40px;
+
+  --text-headline-sm: 24px;
+  --text-headline-sm--line-height: 32px;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 28px;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+
+  --text-label-caps: 12px;
+  --text-label-caps--line-height: 16px;
+  --text-label-caps--letter-spacing: 0.1em;
+
+  --text-label-md: 14px;
+  --text-label-md--line-height: 20px;
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: #f9f9f9;
+  --foreground: #1a1c1c;
+}
+
+.dark {
+  --background: #1a1c1c;
+  --foreground: #f9f9f9;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+  }
+}

@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: smartretail-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      # sync: false = Render prompts for the value instead of storing it in git.
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      # Set to the Vercel URL once the frontend is deployed, e.g.
+      # https://smartretail.vercel.app  (no trailing slash)
+      - key: ALLOWED_ORIGINS
+        sync: false
