@@ -1,5 +1,7 @@
 # SmartRetail
 
+**Live:** [smartretail-alpha.vercel.app](https://smartretail-alpha.vercel.app)
+
 An online store with AI built into both sides of the counter.
 
 Shoppers browse a real catalogue — variants, stock, reviews, cart, checkout with discount codes and shipping rules — and can just *ask* for what they want: "waterproof pants under KD 20" returns real product cards, not a chatbot's guess at the price. Staff get an admin console plus an analytics assistant that answers "which products aren't selling?" or "how did we do this month?" from live queries, and can propose inventory changes that a human approves before anything happens.

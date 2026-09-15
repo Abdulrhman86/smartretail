@@ -10,7 +10,7 @@ sample data in [`database/seed_data.sql`](../database/seed_data.sql).
 | `categories` | Product categories, self-referencing (`parent_id`) for a 2-level hierarchy: 6 top-level, 18 subcategories | Yes |
 | `products` | One row per product. Belongs to exactly one **subcategory** (never a top-level category directly) | Yes — 132 |
 | `product_variants` | Purchasable size/color combos of a product. Stock is tracked per-variant, not per-product | Yes — 366 |
-| `product_images` | Gallery images per product (placeholder URLs for now) | Yes — 265 |
+| `product_images` | Gallery images per product, linked by URL | Yes — 265 |
 | `discounts` | Order-level coupon codes (percentage or fixed amount) | Yes — 4 sample codes |
 | `profiles` | Extends `auth.users` with app-specific fields (name, avatar) | Yes — created on signup |
 | `carts` | One active cart per authenticated user | Yes — created on first cart access |
@@ -60,6 +60,7 @@ Run in the Supabase SQL editor, in order, after `schema.sql` + `seed_data.sql`:
 |---|---|---|
 | `migrations/001_atomic_orders.sql` | `place_order()` and `adjust_variant_stock()` functions so ordering/cancelling are single transactions (backend auto-detects them) | Applied (verified 2026-09-15) |
 | `migrations/002_quality_of_life.sql` | `updated_at` triggers, auto-create `profiles` on signup (+ backfill), trigram search + FK indexes | Applied (verified 2026-09-15) |
+| `migrations/003_kuwaiti_dinar.sql` | Widens every money column to `numeric(10,3)` and converts amounts from USD to Kuwaiti dinar at 3.25 | Applied (2026-09-15) |
 
 ## Credentials
 
@@ -70,4 +71,5 @@ From Supabase dashboard → Project Settings → API:
 
 ## Known limitations
 
-- No real product photos — `product_images.url` values are placeholder images (picsum.photos); switching to real uploaded photos means setting up a Supabase Storage bucket later
+- Money is stored in Kuwaiti dinar at three decimals. `schema.sql` and `seed_data.sql` still define USD at two decimals; migration 003 performs the conversion, so run the migrations after seeding.
+- Product photos are Pexels images linked by URL, chosen per product type by `backend/scripts/fetch_product_images.py`. A fresh seed starts with placeholder images until that script is run.

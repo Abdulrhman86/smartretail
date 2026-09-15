@@ -11,6 +11,7 @@
  *   `status` (number) and `message` (string) so callers can branch on status
  *   codes without inspecting raw Response objects.
  */
+import { trackRequest } from './serverStatus';
 import { clearSession, getSession, updateSessionTokens } from './session';
 
 const BASE_URL = import.meta.env.VITE_API_URL ?? '';
@@ -84,7 +85,7 @@ async function rawRequest(path, options = {}, { retryOnAuth = true } = {}) {
 
   let response;
   try {
-    response = await fetch(`${BASE_URL}${path}`, { ...options, headers });
+    response = await trackRequest(fetch(`${BASE_URL}${path}`, { ...options, headers }));
   } catch {
     throw new ApiError(0, 'Unable to reach the server. Check your connection and try again.');
   }

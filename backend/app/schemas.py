@@ -3,7 +3,7 @@ from typing import Any, Literal, Optional
 from uuid import UUID
 from pydantic import BaseModel, Field, field_validator
 
-# Note: Using float instead of Decimal for numeric(10,2) database fields for simplicity
+# Note: Using float instead of Decimal for the numeric(10,3) KD money fields for simplicity
 
 EMAIL_PATTERN = r"^[^@\s]+@[^@\s]+\.[^@\s]+$"
 PASSWORD_MIN_LENGTH = 8

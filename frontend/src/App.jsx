@@ -5,6 +5,7 @@ import { CartProvider } from './context/CartContext';
 import { ToastProvider } from './context/ToastContext';
 import ProtectedRoute from './routes/ProtectedRoute';
 import ScrollToTop from './components/ScrollToTop';
+import ServerWakeNotice from './components/ServerWakeNotice';
 import StoreLayout from './components/layout/StoreLayout';
 import { Spinner } from './components/ui';
 
@@ -54,6 +55,7 @@ export default function App() {
       <CartProvider>
         <ToastProvider>
           <ScrollToTop />
+          <ServerWakeNotice />
           <Suspense fallback={<PageFallback />}>
             <Routes>
               {/* Storefront (shared header + footer) */}

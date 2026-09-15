@@ -61,4 +61,10 @@ update public.discounts
    set min_order_amount = round(min_order_amount / 3.25, 3)
  where min_order_amount is not null and min_order_amount > 0;
 
+-- The seeded fixed-amount codes convert to awkward figures (8 USD -> 2.462 KD), so round
+-- them to amounts a store would actually advertise.
+update public.discounts set discount_value = 2.500, min_order_amount = 12.500 where code = 'FREESHIP';
+update public.discounts set discount_value = 7.500, min_order_amount = 37.500 where code = 'SUMMER25';
+update public.discounts set min_order_amount = 30.000 where code = 'SAVE20';
+
 commit;
