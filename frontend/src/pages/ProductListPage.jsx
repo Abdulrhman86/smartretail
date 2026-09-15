@@ -5,6 +5,7 @@ import { ChevronDown, Loader2, Search, SlidersHorizontal, Sparkles, X } from "lu
 import { get, getWithTotal, toQuery } from "../api/client";
 import ProductCard, { ProductCardSkeleton } from "../components/ProductCard";
 import useDocumentTitle from "../hooks/useDocumentTitle";
+import { formatPrice } from "../lib/format";
 
 const PAGE_SIZE = 20;
 
@@ -30,13 +31,22 @@ const SORT_OPTIONS = [
   { value: "name-desc", label: "Alphabetical: Z-A" },
 ];
 
+// Bounds are in KD (the currency the API filters on); labels follow whichever currency
+// the shopper is viewing prices in.
 const PRICE_RANGES = [
   { id: "", label: "Any price" },
-  { id: "0-50", label: "Under $50", min: 0, max: 50 },
-  { id: "50-100", label: "$50 – $100", min: 50, max: 100 },
-  { id: "100-150", label: "$100 – $150", min: 100, max: 150 },
-  { id: "150-", label: "$150 & up", min: 150 },
+  { id: "0-15", min: 0, max: 15 },
+  { id: "15-30", min: 15, max: 30 },
+  { id: "30-45", min: 30, max: 45 },
+  { id: "45-", min: 45 },
 ];
+
+function priceRangeLabel({ id, label, min, max }) {
+  if (label) return label;
+  if (min === 0) return `Under ${formatPrice(max)}`;
+  if (max == null) return `${formatPrice(min)} & up`;
+  return `${formatPrice(min)} – ${formatPrice(max)}`;
+}
 
 export default function ProductListPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -260,7 +270,7 @@ export default function ProductListPage() {
                 >
                   {PRICE_RANGES.map((r) => (
                     <option key={r.id || "any"} value={r.id}>
-                      {r.label}
+                      {priceRangeLabel(r)}
                     </option>
                   ))}
                 </select>

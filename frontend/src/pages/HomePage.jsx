@@ -29,7 +29,7 @@ const valueProps = [
   {
     id: "shipping",
     icon: <Truck className="h-5 w-5" strokeWidth={1.5} />,
-    title: "Free shipping over $50",
+    title: "Free shipping over KD 15",
     description: "Complimentary standard shipping on qualifying orders.",
   },
   {

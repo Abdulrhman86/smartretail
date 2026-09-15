@@ -10,7 +10,7 @@ import { useAssistantChat } from './useAssistantChat';
 
 const SUGGESTIONS = [
   'What do you sell?',
-  'Waterproof jacket under $150',
+  'Waterproof jacket under KD 40',
   'Gift ideas for a coffee lover',
   'Where is my last order?',
 ];

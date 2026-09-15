@@ -98,7 +98,7 @@ def get_stats():
     revenue_orders = [o for o in orders if o["status"] != "cancelled"]
     since = datetime.now(timezone.utc) - timedelta(days=30)
     recent_revenue = [o for o in revenue_orders if datetime.fromisoformat(o["created_at"].replace("Z", "+00:00")) >= since]
-    revenue_total = round(sum(float(o["total_amount"]) for o in revenue_orders), 2)
+    revenue_total = round(sum(float(o["total_amount"]) for o in revenue_orders), 3)
 
     by_day: dict[str, float] = {}
     for day_offset in range(13, -1, -1):
@@ -106,15 +106,15 @@ def get_stats():
     for o in revenue_orders:
         day = o["created_at"][:10]
         if day in by_day:
-            by_day[day] = round(by_day[day] + float(o["total_amount"]), 2)
+            by_day[day] = round(by_day[day] + float(o["total_amount"]), 3)
 
     emails = {u.id: u.email for u in users}
     return {
         "revenue_total": revenue_total,
-        "revenue_last_30_days": round(sum(float(o["total_amount"]) for o in recent_revenue), 2),
+        "revenue_last_30_days": round(sum(float(o["total_amount"]) for o in recent_revenue), 3),
         "order_count": len(orders),
         "orders_by_status": dict(Counter(o["status"] for o in orders)),
-        "average_order_value": round(revenue_total / len(revenue_orders), 2) if revenue_orders else 0.0,
+        "average_order_value": round(revenue_total / len(revenue_orders), 3) if revenue_orders else 0.0,
         "product_count": len(products),
         "active_product_count": sum(1 for p in products if p["is_active"]),
         "customer_count": sum(1 for u in users if role_from_app_metadata(u.app_metadata) != "admin"),
@@ -234,7 +234,7 @@ def create_product(payload: ProductCreate):
             "slug": slug,
             "description": payload.description,
             "brand": payload.brand,
-            "base_price": round(payload.base_price, 2),
+            "base_price": round(payload.base_price, 3),
             "is_active": payload.is_active,
         }).execute().data[0]
     except APIError as exc:
@@ -265,7 +265,7 @@ def update_product(product_id: UUID, payload: ProductUpdate):
     if "slug" in changes and changes["slug"]:
         changes["slug"] = _unique_slug(slugify(changes["slug"]), "products", exclude_id=str(product_id))
     if "base_price" in changes and changes["base_price"] is not None:
-        changes["base_price"] = round(changes["base_price"], 2)
+        changes["base_price"] = round(changes["base_price"], 3)
     changes = {k: v for k, v in changes.items() if v is not None or k in ("description", "brand")}
     if changes:
         changes["updated_at"] = _now_iso()

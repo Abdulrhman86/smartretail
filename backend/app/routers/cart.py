@@ -37,7 +37,7 @@ def shape_cart_item(item: dict) -> dict:
         product["image_url"] = images[0]["url"] if images else None
     unit_price = unit_price_for(variant, product) if variant else 0.0
     item["unit_price"] = unit_price
-    item["line_total"] = round(unit_price * item["quantity"], 2)
+    item["line_total"] = round(unit_price * item["quantity"], 3)
     return item
 
 
@@ -82,7 +82,7 @@ def get_cart(
     cart = get_or_create_cart(current_user_id)
     items = fetch_cart_items(cart["id"])
     cart["items"] = items
-    cart["subtotal"] = round(sum(i["line_total"] for i in items), 2)
+    cart["subtotal"] = round(sum(i["line_total"] for i in items), 3)
     cart["item_count"] = sum(i["quantity"] for i in items)
     return cart
 

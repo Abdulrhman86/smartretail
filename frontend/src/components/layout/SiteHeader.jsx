@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { ChevronDown, LayoutDashboard, LogOut, Menu, Package, Search, ShoppingBag, User, X } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
+import CurrencyToggle from '../CurrencyToggle';
 
 const NAV_CATEGORIES = [
   { slug: 'apparel', label: 'Apparel' },
@@ -125,6 +126,8 @@ export default function SiteHeader({ transparentAtTop = false }) {
 
           {/* Right actions */}
           <div className="flex items-center gap-1 sm:gap-2">
+            <CurrencyToggle />
+
             <button
               type="button"
               onClick={() => setSearchOpen((open) => !open)}

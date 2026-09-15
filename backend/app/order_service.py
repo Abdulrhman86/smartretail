@@ -116,7 +116,7 @@ def _order_item_rows(items: list[dict]) -> list[dict]:
             "variant_label": variant_label_for(variant),
             "unit_price": unit_price,
             "quantity": item["quantity"],
-            "line_total": round(unit_price * item["quantity"], 2),
+            "line_total": round(unit_price * item["quantity"], 3),
         })
     return rows
 

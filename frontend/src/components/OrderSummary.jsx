@@ -1,3 +1,4 @@
+import { USD_PER_KD, displayCurrency } from '../lib/currency';
 import { formatAddress, formatPrice } from '../lib/format';
 
 /** Line items + totals + shipping address for an order (shared by customer and admin views). */
@@ -42,6 +43,12 @@ export default function OrderSummary({ order }) {
             <dd className="tabular-nums">{formatPrice(order.total_amount)}</dd>
           </div>
         </dl>
+        {displayCurrency === 'USD' && (
+          <p className="border-t border-border px-5 py-3 text-xs text-muted-foreground">
+            Shown in US dollars at a fixed rate of {USD_PER_KD} per dinar. Orders are priced and charged in
+            Kuwaiti dinar — the actual total is KD {Number(order.total_amount).toFixed(3)}.
+          </p>
+        )}
       </div>
 
       <div className="space-y-6">

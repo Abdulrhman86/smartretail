@@ -265,7 +265,7 @@ export default function CartPage() {
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Shipping</span>
                   <span className="text-xs text-muted-foreground italic">
-                    {remainingForFreeShipping > 0 ? "From $5.99 at checkout" : "Free (standard)"}
+                    {remainingForFreeShipping > 0 ? "From KD 1.750 at checkout" : "Free (standard)"}
                   </span>
                 </div>
                 <hr className="border-border" />

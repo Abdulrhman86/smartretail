@@ -28,6 +28,7 @@ from fastapi.testclient import TestClient  # noqa: E402
 from app.auth import _token_cache  # noqa: E402
 from app.database import create_anon_client, supabase  # noqa: E402
 from app.main import app  # noqa: E402
+from app.pricing import FREE_SHIPPING_THRESHOLD, SHIPPING_RATES  # noqa: E402
 
 client = TestClient(app)
 results = {"pass": 0, "fail": 0}
@@ -182,10 +183,10 @@ def run():
 
         # ── Quote ───────────────────────────────────────────────────────────
         quote = client.post("/orders/quote", headers=headers_a, json={"shipping_method": "standard"}).json()
-        expected_ship = 0.0 if quote["subtotal"] >= 50 else 5.99
-        check("POST /orders/quote standard shipping rule", quote["shipping_amount"] == expected_ship and quote["total_amount"] == round(quote["subtotal"] + expected_ship, 2), quote)
+        expected_ship = 0.0 if quote["subtotal"] >= FREE_SHIPPING_THRESHOLD else SHIPPING_RATES["standard"]
+        check("POST /orders/quote standard shipping rule", quote["shipping_amount"] == expected_ship and quote["total_amount"] == round(quote["subtotal"] + expected_ship, 3), quote)
         quote = client.post("/orders/quote", headers=headers_a, json={"shipping_method": "express", "discount_code": "welcome10"}).json()
-        check("POST /orders/quote express + WELCOME10 (case-insensitive)", quote.get("shipping_amount") == 14.99 and quote.get("discount_amount") == round(quote["subtotal"] * 0.10, 2), quote)
+        check("POST /orders/quote express + WELCOME10 (case-insensitive)", quote.get("shipping_amount") == SHIPPING_RATES["express"] and quote.get("discount_amount") == round(quote["subtotal"] * 0.10, 3), quote)
         check("POST /orders/quote invalid code -> 400", client.post("/orders/quote", headers=headers_a, json={"discount_code": "NOPE123"}).status_code == 400)
 
         # ── Orders ──────────────────────────────────────────────────────────

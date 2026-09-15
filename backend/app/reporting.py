@@ -71,13 +71,13 @@ def finance_report(days: int = 30) -> dict:
         revenue = sum(float(o["total_amount"]) for o in billable)
         units = sum(i["quantity"] for o in billable for i in (o.get("order_items") or []))
         return {
-            "revenue": round(revenue, 2),
+            "revenue": round(revenue, 3),
             "orders": len(billable),
             "units": units,
-            "average_order_value": round(revenue / len(billable), 2) if billable else 0.0,
-            "subtotal": round(sum(float(o["subtotal"]) for o in billable), 2),
-            "discounts_given": round(sum(float(o["discount_amount"] or 0) for o in billable), 2),
-            "shipping_collected": round(sum(float(o["shipping_amount"] or 0) for o in billable), 2),
+            "average_order_value": round(revenue / len(billable), 3) if billable else 0.0,
+            "subtotal": round(sum(float(o["subtotal"]) for o in billable), 3),
+            "discounts_given": round(sum(float(o["discount_amount"] or 0) for o in billable), 3),
+            "shipping_collected": round(sum(float(o["shipping_amount"] or 0) for o in billable), 3),
         }
 
     now, before = totals(current), totals(previous)
@@ -93,7 +93,7 @@ def finance_report(days: int = 30) -> dict:
             continue
         day = o["created_at"][:10]
         if day in by_day:
-            by_day[day]["revenue"] = round(by_day[day]["revenue"] + float(o["total_amount"]), 2)
+            by_day[day]["revenue"] = round(by_day[day]["revenue"] + float(o["total_amount"]), 3)
             by_day[day]["orders"] += 1
 
     status_counts: dict[str, int] = defaultdict(int)
@@ -154,10 +154,10 @@ def underperforming_products(days: int = 30, limit: int = 10) -> list[dict]:
             "product_name": p["name"],
             "brand": p.get("brand"),
             "units_sold": sold,
-            "revenue": round(revenue.get(p["id"], 0.0), 2),
+            "revenue": round(revenue.get(p["id"], 0.0), 3),
             "stock_on_hand": p["stock_on_hand"],
             "base_price": float(p["base_price"]),
-            "stock_value": round(p["stock_on_hand"] * float(p["base_price"]), 2),
+            "stock_value": round(p["stock_on_hand"] * float(p["base_price"]), 3),
             "listed_days_ago": (datetime.now(timezone.utc) - _parse(p["created_at"])).days,
         })
     rows.sort(key=lambda r: (r["units_sold"], -r["stock_value"]))
@@ -175,7 +175,7 @@ def top_products(days: int = 30, limit: int = 10) -> list[dict]:
             "product_name": (names.get(pid) or {}).get("name", "Unknown"),
             "brand": (names.get(pid) or {}).get("brand"),
             "units_sold": sold,
-            "revenue": round(revenue.get(pid, 0.0), 2),
+            "revenue": round(revenue.get(pid, 0.0), 3),
         }
         for pid, sold in units.items()
     ]
@@ -228,8 +228,8 @@ def top_customers(days: int = 365, limit: int = 10) -> list[dict]:
             "user_id": uid,
             "email": emails.get(uid) or "unknown",
             "orders": counts[uid],
-            "total_spent": round(total, 2),
-            "average_order_value": round(total / counts[uid], 2),
+            "total_spent": round(total, 3),
+            "average_order_value": round(total / counts[uid], 3),
             "last_order_at": last_order.get(uid),
         }
         for uid, total in spend.items()
@@ -260,8 +260,8 @@ def discount_performance() -> list[dict]:
             "value": float(d["discount_value"]),
             "is_active": d["is_active"],
             "orders": used.get(d["id"], 0),
-            "discount_given": round(given.get(d["id"], 0.0), 2),
-            "revenue_generated": round(revenue.get(d["id"], 0.0), 2),
+            "discount_given": round(given.get(d["id"], 0.0), 3),
+            "revenue_generated": round(revenue.get(d["id"], 0.0), 3),
             "uses_count": d.get("uses_count", 0),
             "max_uses": d.get("max_uses"),
         }
@@ -278,5 +278,5 @@ def inventory_snapshot() -> dict:
         "out_of_stock_products": len(out_of_stock),
         "low_stock_variants": len(low_stock(limit=1000)),
         "total_units_on_hand": sum(p["stock_on_hand"] for p in products),
-        "stock_value": round(stock_value, 2),
+        "stock_value": round(stock_value, 3),
     }

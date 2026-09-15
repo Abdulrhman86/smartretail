@@ -291,7 +291,7 @@ CUSTOMER_SYSTEM_PROMPT = f"""You are the shopping assistant for SmartRetail, an 
 Rules:
 - Never invent products, prices, stock levels or order details. Every fact you state must come from a tool result. If the tools return nothing, say so plainly.
 - The shopper sees product cards rendered from the search results, so don't repeat full specs in your text. Name the picks and say briefly why they fit, in 2-4 sentences.
-- Prices are in USD. Shipping is ${SHIPPING_RATES['standard']} standard (free over ${FREE_SHIPPING_THRESHOLD:.0f}) or ${SHIPPING_RATES['express']} express.
+- Prices are in Kuwaiti dinar, written like "KD 12.500" with three decimals. Shipping is KD {SHIPPING_RATES['standard']:.3f} standard (free over KD {FREE_SHIPPING_THRESHOLD:.3f}) or KD {SHIPPING_RATES['express']:.3f} express. Never quote a price in any other currency.
 - Before adding to the cart, make sure the shopper picked a size/colour when the product has several. Confirm what you added afterwards.
 - SmartRetail is a portfolio demo store: orders aren't really fulfilled and no payment is taken. Say so if someone asks about delivery, returns or payment specifics rather than inventing a policy.
 - Stay on topic. If asked something unrelated to the store, redirect politely."""
@@ -333,7 +333,7 @@ def _underperforming(args: dict) -> ToolResult:
         f"Underperforming products — last {days} days",
         [
             {"label": "Products listed", "value": len(rows), "format": "number"},
-            {"label": "Stock value tied up", "value": round(sum(r["stock_value"] for r in rows), 2), "format": "currency"},
+            {"label": "Stock value tied up", "value": round(sum(r["stock_value"] for r in rows), 3), "format": "currency"},
         ],
         [
             _col("product_name", "Product"),
@@ -356,7 +356,7 @@ def _top_products(args: dict) -> ToolResult:
         "top_products",
         f"Best sellers — last {days} days",
         [{"label": "Units sold", "value": sum(r["units_sold"] for r in rows), "format": "number"},
-         {"label": "Revenue", "value": round(sum(r["revenue"] for r in rows), 2), "format": "currency"}],
+         {"label": "Revenue", "value": round(sum(r["revenue"] for r in rows), 3), "format": "currency"}],
         [_col("product_name", "Product"), _col("brand", "Brand"), _col("units_sold", "Units sold", "number"), _col("revenue", "Revenue", "currency")],
         rows,
     )
@@ -386,7 +386,7 @@ def _top_customers(args: dict) -> ToolResult:
         "top_customers",
         f"Top customers — last {days} days",
         [{"label": "Customers listed", "value": len(rows), "format": "number"},
-         {"label": "Combined spend", "value": round(sum(r["total_spent"] for r in rows), 2), "format": "currency"}],
+         {"label": "Combined spend", "value": round(sum(r["total_spent"] for r in rows), 3), "format": "currency"}],
         [_col("email", "Customer"), _col("orders", "Orders", "number"), _col("total_spent", "Total spent", "currency"), _col("average_order_value", "Avg order", "currency")],
         rows,
     )
@@ -399,7 +399,7 @@ def _discount_performance(_args: dict) -> ToolResult:
         "discounts",
         "Discount code performance",
         [{"label": "Codes", "value": len(rows), "format": "number"},
-         {"label": "Total discount given", "value": round(sum(r["discount_given"] for r in rows), 2), "format": "currency"}],
+         {"label": "Total discount given", "value": round(sum(r["discount_given"] for r in rows), 3), "format": "currency"}],
         [_col("code", "Code"), _col("type", "Type"), _col("orders", "Orders", "number"), _col("discount_given", "Discount given", "currency"), _col("revenue_generated", "Revenue", "currency")],
         rows,
     )
@@ -616,7 +616,7 @@ ADMIN_SYSTEM_PROMPT = """You are the operations analyst inside SmartRetail's adm
 Rules:
 - Every number you state must come from a tool result. Never estimate, extrapolate or carry a figure over from earlier in the conversation without re-checking it.
 - The admin sees the full table or chart rendered beneath your reply, so don't transcribe it. Lead with the figure that answers the question, then add the one or two things worth noticing (a trend, an outlier, a risk). Keep it under about six lines.
-- Amounts are USD. When you quote a period, say which one.
+- Amounts are Kuwaiti dinar, written like "KD 1,240.500" with three decimals. When you quote a period, say which one.
 - 'Underperforming' means active stock that isn't selling — use get_underperforming_products, and read it together with stock value, since slow-moving items with a lot of stock tied up matter most.
 - archive_product and restock_variant only *propose* a change: the admin gets a confirmation prompt and nothing happens until they approve it. Say that you've queued it for approval rather than claiming it is done. Resolve names to ids with find_product first, and never guess an id.
 - If a question can't be answered with the tools you have, say what you'd need instead of guessing."""

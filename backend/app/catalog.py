@@ -115,8 +115,8 @@ def to_product_list_item(product: dict) -> dict:
     return {
         **product,
         "image_url": images[0]["url"] if images else None,
-        "min_price": round(min(prices), 2),
-        "max_price": round(max(prices), 2),
+        "min_price": round(min(prices), 3),
+        "max_price": round(max(prices), 3),
         "total_stock": sum(v.get("stock_quantity") or 0 for v in variants),
         "variant_count": len(variants),
         "default_variant_id": default_variant["id"] if default_variant else None,

@@ -8,7 +8,7 @@ const FAQ = [
   },
   {
     q: 'How much is shipping?',
-    a: 'Standard shipping (3–5 business days) is free on orders over $50 and $5.99 otherwise. Express delivery (next business day) is $14.99.',
+    a: 'Standard shipping (3–5 business days) is free on orders over KD 15.000 and KD 1.750 otherwise. Express delivery (next business day) is KD 4.500.',
   },
   {
     q: 'Can I cancel an order?',
@@ -58,7 +58,7 @@ export default function HelpPage() {
       </div>
 
       <Section id="shipping" eyebrow="Delivery" title="Shipping & Returns">
-        <p>Standard delivery takes 3–5 business days and is complimentary on orders over $50 ($5.99 below that). Express delivery arrives the next business day for $14.99.</p>
+        <p>Standard delivery takes 3–5 business days and is complimentary on orders over KD 15.000 (KD 1.750 below that). Express delivery arrives the next business day for KD 4.500.</p>
         <p>Unworn items can be returned within 30 days of delivery. Since this is a demo store, returns are illustrative only.</p>
       </Section>
 

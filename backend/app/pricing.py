@@ -8,18 +8,24 @@ from typing import Optional
 
 from fastapi import HTTPException
 
-FREE_SHIPPING_THRESHOLD = 50.00
+# The store prices and charges in Kuwaiti dinar, which is divided into 1000 fils —
+# hence three decimals rather than two. Any other currency shown in the UI is a
+# display-only conversion; every amount stored or charged is KD.
+CURRENCY_CODE = "KWD"
+CURRENCY_DECIMALS = 3
+
+FREE_SHIPPING_THRESHOLD = 15.000
 SHIPPING_RATES = {
-    "standard": 5.99,  # free when subtotal >= FREE_SHIPPING_THRESHOLD
-    "express": 14.99,
+    "standard": 1.750,  # free when subtotal >= FREE_SHIPPING_THRESHOLD
+    "express": 4.500,
 }
 
 
 def unit_price_for(variant: dict, product: Optional[dict]) -> float:
     price_override = variant.get("price_override")
     if price_override is not None:
-        return round(float(price_override), 2)
-    return round(float((product or {}).get("base_price", 0.0)), 2)
+        return round(float(price_override), 3)
+    return round(float((product or {}).get("base_price", 0.0)), 3)
 
 
 def variant_label_for(variant: dict) -> Optional[str]:
@@ -67,8 +73,8 @@ def validate_discount(discount: Optional[dict], code: str, subtotal: float) -> f
 
     value = float(discount["discount_value"])
     if discount["discount_type"] == "percentage":
-        return round(min(subtotal, subtotal * value / 100.0), 2)
-    return round(min(value, subtotal), 2)
+        return round(min(subtotal, subtotal * value / 100.0), 3)
+    return round(min(value, subtotal), 3)
 
 
 @dataclass
@@ -90,14 +96,14 @@ def build_quote(cart_items: list[dict], shipping_method: str, discount: Optional
         variant = item["product_variants"]
         subtotal += unit_price_for(variant, variant.get("products")) * item["quantity"]
         item_count += item["quantity"]
-    subtotal = round(subtotal, 2)
+    subtotal = round(subtotal, 3)
 
     discount_amount = 0.0
     if discount_code:
         discount_amount = validate_discount(discount, discount_code, subtotal)
 
     shipping_amount = shipping_amount_for(shipping_method, subtotal)
-    total = max(0.0, round(subtotal - discount_amount + shipping_amount, 2))
+    total = max(0.0, round(subtotal - discount_amount + shipping_amount, 3))
 
     return Quote(
         subtotal=subtotal,

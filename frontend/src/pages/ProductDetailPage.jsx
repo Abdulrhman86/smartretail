@@ -477,7 +477,7 @@ export default function ProductDetailPage() {
               <div className="mt-8 grid grid-cols-2 gap-4 border-t border-border pt-6">
                 <div className="flex items-start gap-2.5">
                   <Truck className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" strokeWidth={1.5} />
-                  <p className="text-xs text-muted-foreground">Free standard shipping on orders over $50.</p>
+                  <p className="text-xs text-muted-foreground">Free standard shipping on orders over KD 15.000.</p>
                 </div>
                 <div className="flex items-start gap-2.5">
                   <RotateCcw className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" strokeWidth={1.5} />
@@ -507,7 +507,7 @@ export default function ProductDetailPage() {
                   </button>
                   {shippingOpen && (
                     <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
-                      Standard shipping arrives in 3–5 business days and is free on orders over $50 ($5.99 otherwise). Express delivery arrives the next business day for $14.99.
+                      Standard shipping arrives in 3–5 business days and is free on orders over KD 15.000 (KD 1.750 otherwise). Express delivery arrives the next business day for KD 4.500.
                     </p>
                   )}
                 </div>
